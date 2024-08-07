@@ -160,6 +160,7 @@ include_directories (${INCLUDE_DIRECTORIES} ${Boost_INCLUDE_DIRS})
 #       Targets
 ###########################################################################
 message (STATUS "Cachelot setup ...")
+set (NO_SERVER OFF CACHE BOOL "Do not build the server")
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE}")
 set (CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib/${CMAKE_BUILD_TYPE}")
 set (CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib/${CMAKE_BUILD_TYPE}")
@@ -177,8 +178,10 @@ endif ()
 include_directories (src)
 # - - - cachelot library - - - - - - -
 add_subdirectory (src/cachelot)
+if (NOT NO_SERVER)
 # - - - cachelotd server - - - - - - -
 add_subdirectory (src/server)
+endif()
 if (BUILD_TESTS)
 # - - - unit tests - - - - - - - - - -
 add_subdirectory (src/unit_test)
