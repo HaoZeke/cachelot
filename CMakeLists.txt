@@ -145,7 +145,10 @@ configure_file ("${CMAKE_CURRENT_SOURCE_DIR}/src/cachelot/version.h.in" "${CMAKE
 ###########################################################################
 # - boost libraries - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 set (BOOST_MIN_VERSION, "1.53.0")
-set (USED_COMPONENTS unit_test_framework system program_options)
+set (USED_COMPONENTS system program_options)
+if (BUILD_TESTS)
+    set(USED_COMPONENTS ${USED_COMPONENTS} unit_test_framework)
+endif()
 set (Boost_USE_MULTITHREADED ON CACHE BOOL "Use multithreaded Boost")
 set (Boost_USE_STATIC_LIBS ON CACHE BOOL "Use static Boost libraries")
 add_definitions (-DBOOST_ALL_NO_LIB) # disable boost auto-linking feature as it does not work with all compilers
@@ -176,12 +179,14 @@ include_directories (src)
 add_subdirectory (src/cachelot)
 # - - - cachelotd server - - - - - - -
 add_subdirectory (src/server)
+if (BUILD_TESTS)
 # - - - unit tests - - - - - - - - - -
 add_subdirectory (src/unit_test)
-# - - - Benchmarks - - - - - - - - - -
-add_subdirectory (src/benchmark)
 # - - - C API test - - - - - - - - - -
 add_subdirectory (src/test_c_api)
+endif()
+# - - - Benchmarks - - - - - - - - - -
+add_subdirectory (src/benchmark)
 
 
 ###########################################################################
